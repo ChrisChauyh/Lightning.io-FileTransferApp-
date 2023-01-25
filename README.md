@@ -1,1 +1,2 @@
 Check this out # startup lol
+I feel that it is really a life saver when we have the pull request and branch, sometimes i finished a bunch of code and realized I have to redo my code. Now with pull I can pull the previous branch and continue work from there.
