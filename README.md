@@ -11,3 +11,7 @@ Multi files upload
 Text input and send to others
 Multi platform(Windows, MacOS, IOS, Android,Linux) PWA application
 Web socket for sending data about received file.
+
+
+I like the way how easy Amazon can configure a new server. I have my own domain novaphoenix.ddns.net
+, so it made things more easier
