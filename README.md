@@ -15,3 +15,5 @@ Web socket for sending data about received file.
 
 I like the way how easy Amazon can configure a new server. I have my own domain novaphoenix.ddns.net
 , so it made things more easier
+
+It is interesting that scam websites are dramastically decreased because of secure websites.
