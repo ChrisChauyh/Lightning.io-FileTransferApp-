@@ -17,3 +17,6 @@ I like the way how easy Amazon can configure a new server. I have my own domain 
 , so it made things more easier
 
 It is interesting that scam websites are dramastically decreased because of secure websites.
+
+
+I learned that how to push all the files to my web server
