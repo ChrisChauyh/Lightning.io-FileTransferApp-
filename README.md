@@ -20,3 +20,6 @@ It is interesting that scam websites are dramastically decreased because of secu
 
 
 I learned that how to push all the files to my web server
+
+
+From simon css I learned to do animation and I think most off the website had follow the Unix rule, navigation bar is always on top.
