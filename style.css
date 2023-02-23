@@ -23,7 +23,6 @@ body {
     font-weight: bold;
     text-transform: uppercase;
     display: flex;
-    display: block;
     padding: 10px 10px 10px 10px;
 }
 
