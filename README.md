@@ -23,3 +23,5 @@ I learned that how to push all the files to my web server
 
 
 From simon css I learned to do animation and I think most off the website had follow the Unix rule, navigation bar is always on top.
+
+I learned a small css elements can make a huge difference on the whole website. Simple is great, users hate complex websites.
