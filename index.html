@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head><h1 class="h1">Lightning.io</h1>
+        <ul class="menu">
+            <li onclick='window.location.href="index.html"'>Home</li>
+            <li onclick='window.location.href="about.html"'>About</li>
+            <li onclick='window.location.href="history.html"'>Download history</li>
+            <li onclick='window.location.href="explore.html"'>Explore</li>
+            <div class="user-actions">
+                <a href="login.html"> <button class="login">Login</button></a>
+                <a href="register.html"><button class="register">Register</button></a>
+            </div>
+        </ul>
+
+    <div class="user-actions">
+
+    </div>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div class="content">
+    <p>Welcome to Lightning.io</p>
+    <p>This is a website that for temporary upload and download</p>
+    <p>Enjoy!</p>
+    <div id="dropzone">
+        <p>Drag and drop files here or click to select files.</p>
+        <input type="file" id="fileInput" style="display: none;">
+        <div id="file-name"></div>  <!-- Add an input file element with display:none; -->
+    </div>
+    <div><textarea id="text-input" placeholder="Enter text here..."></textarea></div>
+    <script src="upload.js"></script>
+</div>
+<div class="footer">
+    <span class="text-reset">Chris Chau</span>
+    <a class="text-reset" href="https://github.com/ChrisChauyh/startup"
+    >GitHub</a
+    >
+</div>
+</body>
+</html>
