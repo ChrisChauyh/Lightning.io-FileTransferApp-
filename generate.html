@@ -1,24 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <h1 class="h1">Lightning.io</h1>
-        <ul class="menu">
-            <li onclick='window.location.href="index.html"'>Home</li>
-            <li onclick='window.location.href="about.html"'>About</li>
-            <li onclick='window.location.href="history.html"'>Upload history</li>
-            <li onclick='window.location.href="explore.html"'>Explore</li>
-            <div class="user-actions">
-                <a href="login.html"> <button class="login">Login</button></a>
-                <a href="register.html"><button class="register">Register</button></a>
-            </div>
-        </ul>
+    <ul class="menu">
+        <li onclick='window.location.href="index.html"'>Home</li>
+        <li onclick='window.location.href="about.html"'>About</li>
+        <li onclick='window.location.href="history.html"'>Upload history</li>
+        <li onclick='window.location.href="explore.html"'>Explore</li>
+        <div class="user-actions">
+            <a href="login.html">
+                <button class="login">Login</button>
+            </a>
+            <a href="register.html">
+                <button class="register">Register</button>
+            </a>
+        </div>
+    </ul>
 
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 <div class="content">
-
+    <div class="row">
+        <div class="col-md-6">
+            <div class="text-center">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?data=Hello+World&amp;size=200x200" alt="QR Code">
+                <br><br>
+                <button class="btn btn-primary">Download</button>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="text-holder">
+                <p>This is some sample text that will appear next to the QR code.</p>
+            </div>
+        </div>
+    </div>
 
 
     <script src="upload.js"></script>

@@ -19,7 +19,7 @@
 <body>
 <div class="content">
     <p>Welcome to Lightning.io</p>
-    <p>This is a website that for temporary upload and download</p>
+    <p>This is a website that for temporary upload and download files or texts</p>
     <p>Enjoy!</p>
     <div class="wrapper">
         <div id="dropzone">
@@ -29,8 +29,10 @@
         </div>
         <div class="generate"> <a href="generate.html"> <button id="generate-link" class="btn btn-primary">Generate Link</button></a></div>
         <div class="input-holder">
-            <label for="text" >Text:</label>
-            <input type="text" id="text">
+            <div class="form-group">
+                <label for="text-input">Text:</label>
+                <input type="text" class="form-control" id="text-input">
+            </div>
         </div>
     </div>
     <script src="upload.js"></script>
