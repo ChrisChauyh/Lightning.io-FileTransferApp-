@@ -149,7 +149,7 @@ body {
     color: #fff;
 }
 
-.content {
+.content-fluid {
     padding: 20px;
 }
 
@@ -325,6 +325,7 @@ a {
 
 .form-control {
     margin-bottom: 10px;
+    word-wrap: break-word; overflow-wrap: break-word;
 }
 
 .btn-primary {

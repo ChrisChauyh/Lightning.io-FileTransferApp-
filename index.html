@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<div class="content">
+<div class="content-fluid">
     <p>Welcome to Lightning.io</p>
     <p>This is a website that for temporary upload and download files or texts</p>
     <p>Enjoy!</p>
@@ -27,12 +27,14 @@
             <input type="file" id="fileInput" style="display: none;">
             <div id="file-name"></div>
         </div>
-        <div class="generate"> <a href="generate.html"> <button id="generate-link" class="btn btn-primary">Generate Link</button></a></div>
         <div class="input-holder">
             <div class="form-group">
                 <label for="text-input">Text:</label>
-                <input type="text" class="form-control" id="text-input">
+                <input type="text" class="form-control" id="text-input" style="height: 100px;">
             </div>
+        </div>
+        <div class="generate">
+            <button id="generate-link" class="btn btn-primary">Generate Link</button>
         </div>
     </div>
     <script src="upload.js"></script>
