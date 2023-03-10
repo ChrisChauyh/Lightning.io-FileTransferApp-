@@ -1,7 +1,10 @@
 var dropzone = document.getElementById('dropzone');
 var fileInput = document.getElementById('fileInput');
 var fileName = document.getElementById('file-name');
+const playerNameEl = document.querySelector('.player-name');
 
+playerNameEl.textContent = this.getPlayerName();
+localStorage.getItem('userName');
 dropzone.addEventListener('click', function(e) {
     fileInput.click();
 });
@@ -34,3 +37,9 @@ fileInput.addEventListener('change', function(e) {
     }
     // Do something with the selected file(s)
 });
+
+function storeValue() {
+    var textboxValue = document.getElementById("text-input").value;
+    localStorage.setItem("textboxValue", textboxValue);
+        document.getElementById("text-holder").innerHTML =  localStorage.setItem("textboxValue", textboxValue);;
+}
