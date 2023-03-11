@@ -1,10 +1,7 @@
 var dropzone = document.getElementById('dropzone');
 var fileInput = document.getElementById('fileInput');
 var fileName = document.getElementById('file-name');
-const playerNameEl = document.querySelector('.player-name');
 
-playerNameEl.textContent = this.getPlayerName();
-localStorage.getItem('userName');
 dropzone.addEventListener('click', function(e) {
     fileInput.click();
 });
