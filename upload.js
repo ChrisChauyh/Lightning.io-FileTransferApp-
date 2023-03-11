@@ -38,8 +38,26 @@ fileInput.addEventListener('change', function(e) {
     // Do something with the selected file(s)
 });
 
-function storeValue() {
-    var textboxValue = document.getElementById("text-input").value;
-    localStorage.setItem("textboxValue", textboxValue);
-        document.getElementById("text-holder").innerHTML =  localStorage.setItem("textboxValue", textboxValue);;
+//get text from index.html
+function sync(){
+    const submitButton = document.getElementById('submit-button');
+    const textInput = document.getElementById('text-input');
+
+    submitButton.addEventListener('click', () => {
+        const text = textInput.value;
+        window.location.href = `generate.html?text=${encodeURIComponent(text)}`;
+    });
+}
+
+
+//show text
+function showtext(){
+    const textResult = document.getElementById('text-result');
+    const urlParams = new URLSearchParams(window.location.search);
+    const text = urlParams.get('text');
+
+    if (text) {
+        textResult.textContent = text;
+    }
+
 }
