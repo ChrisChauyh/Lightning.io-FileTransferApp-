@@ -201,11 +201,6 @@ body {
 }
 .form-group {
     margin-bottom: 20px;
-    width: 400px;
-    height: 300px;
-    font-size: 30px;
-    color: #000000;
-    border-radius: 5px;
 }
 label {
     display: block;
@@ -330,9 +325,15 @@ a {
 
 .form-control {
     margin-bottom: 10px;
-    width: 1000px;
+    width: 400px;
     height: 300px;
-
+    border: 2px dashed #000000;
+    padding: 20px;
+    text-align: center;
+    font-size: 20px;
+    color: #000000;
+    border-radius: 5px;
+    cursor: pointer;
     word-wrap: break-word; overflow-wrap: break-word;
 }
 
