@@ -107,6 +107,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 200px;
+
 }
 
 .input-holder label {
@@ -200,6 +201,11 @@ body {
 }
 .form-group {
     margin-bottom: 20px;
+    width: 400px;
+    height: 300px;
+    font-size: 30px;
+    color: #000000;
+    border-radius: 5px;
 }
 label {
     display: block;
@@ -324,6 +330,9 @@ a {
 
 .form-control {
     margin-bottom: 10px;
+    width: 1000px;
+    height: 300px;
+
     word-wrap: break-word; overflow-wrap: break-word;
 }
 
