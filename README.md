@@ -31,3 +31,7 @@ I learned a small css elements can make a huge difference on the whole website. 
 I learned how to use the timer function from Javascript. I am grateful I am learning Java so this doesn't confuses me a lot.
 
 I learned from my startup that JS is god when doing all functions and methods locally. It is basically you run c++ on web
+
+I learned about how i can do better putting temp auth tokens and login register into HTML
+
+Websocket can really helps us to get realtime data instead of sending bunch of http request and response.
