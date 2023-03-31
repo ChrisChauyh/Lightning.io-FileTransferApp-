@@ -11,6 +11,7 @@
             <div class="user-actions">
                 <a href="login.html"> <button class="login">Login</button></a>
                 <a href="register.html"><button class="register">Register</button></a>
+                <div id="playerName"></div>
             </div>
         </ul>
 
@@ -22,10 +23,20 @@
     <p>Welcome to Lightning.io</p>
     <p>This is a website that for temporary upload and download files or texts</p>
     <p>Enjoy!</p>
+
+    <!-- Displayed when needing authentication -->
+    <div id="loginControls" style="display: none">
+
+
+
+    </div>
+
+
+<!--    display after login-->
     <div class="wrapper">
         <div id="dropzone">
             <p>Drag and drop files here or click to select files.</p>
-            <input type="file" id="fileInput" style="display: none;">
+            <input type="file" id="fileInput" name="file" style="display: none;">
             <div id="file-name"></div>
         </div>
         <div class="input-holder">
@@ -37,10 +48,13 @@
         </div>
         <div class="generate">
             <button id="submit-button"class="btn btn-primary" onclick="sync()">Generate</button>
+            <button type="button" class="btn btn-secondary" onclick="logout()">
+                Logout
+            </button>
         </div>
 
     </div>
-    <script src="upload.js"></script>
+    <script src="loginAndupload.js"></script>
 </div>
 <div class="footer">
     <span class="text-reset">Author: Chris Chau</span>

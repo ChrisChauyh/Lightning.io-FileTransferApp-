@@ -1,38 +1,128 @@
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
-const DB = require('./database.js');
-
 const express = require('express');
-const bodyParser = require('body-parser');
-
 const app = express();
+const DB = require('./database.js');
+const { PeerProxy } = require('./peerProxy.js');
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+const authCookieName = 'token';
 
-// serve static files from the public folder
+// The service port may be set on the command line
+const port = process.argv.length > 2 ? process.argv[2] : 4000;
+
+// JSON body parsing using built-in middleware
+app.use(express.json());
+
+// Use the cookie parser middleware for tracking authentication tokens
+app.use(cookieParser());
+
+// Serve up the applications static content
 app.use(express.static('public'));
 
-// handle POST requests to the login form
-app.post('/login', function(req, res) {
-  const username = req.body.username;
-  const password = req.body.password;
+// Router for service endpoints
+var apiRouter = express.Router();
+app.use(`/api`, apiRouter);
 
-  // check credentials (replace this with your own logic)
-  const isAuthenticated = checkCredentials(username, password);
-
-  if (isAuthenticated) {
-    res.send(`Welcome, ${username}!`);
+// CreateAuth token for a new user
+apiRouter.post('/auth/create', async (req, res) => {
+  if (await DB.getUser(req.body.email)) {
+    res.status(409).send({ msg: 'Existing user' });
   } else {
-    res.status(401).send('Invalid credentials');
+    const user = await DB.createUser(req.body.email, req.body.password);
+
+    // Set the cookie
+    // setAuthCookie(res, user.token);
+
+    res.send({
+      id: user._id,
+    });
   }
 });
 
-function checkCredentials(username, password) {
-  // replace this with your own logic for checking credentials
-  return username === 'user' && password === 'password';
+// GetAuth token for the provided credentials
+apiRouter.post('/auth/login', async (req, res) => {
+  const user = await DB.getUser(req.body.email);
+  console.log("current" + user)
+  if (user) {
+    if (await bcrypt.compare(req.body.password, user.password)) {
+      console.log("reqpassword" + req.body.password);
+      console.log("userpassword" + user.password);
+      setAuthCookie(res, user.token);
+      res.send({ id: user._id });
+      return;
+    }
+  }
+  res.status(401).send({ msg: 'Unauthorized' });
+});
+
+// DeleteAuth token if stored in cookie
+apiRouter.delete('/auth/logout', (_req, res) => {
+  res.clearCookie(authCookieName);
+  res.status(204).end();
+});
+
+// GetUser returns information about a user
+apiRouter.get('/user/:email', async (req, res) => {
+  const user = await DB.getUser(req.params.email);
+  if (user) {
+    const token = req?.cookies.token;
+    res.send({ email: user.email, authenticated: token === user.token });
+    return;
+  }
+  res.status(404).send({ msg: 'Unknown' });
+});
+
+// secureApiRouter verifies credentials for endpoints
+var secureApiRouter = express.Router();
+apiRouter.use(secureApiRouter);
+
+secureApiRouter.use(async (req, res, next) => {
+  const authToken = req.cookies[authCookieName];
+  console.log("Authtoken" + authToken);
+  next();
+  // const user = await DB.getUserByToken(authToken);
+  // console.log("Username" + user);
+  // if (user) {
+  //   next();
+  // } else {
+  //   res.status(401).send({ msg: 'Unauthorized' });
+  // }
+});
+
+// GetScores
+secureApiRouter.get('/scores', async (req, res) => {
+  const scores = await DB.getHighScores();
+  res.send(scores);
+});
+
+// SubmitScore
+secureApiRouter.post('/score', async (req, res) => {
+  await DB.addScore(req.body);
+  const scores = await DB.getHighScores();
+  res.send(scores);
+});
+
+// Default error handler
+app.use(function (err, req, res, next) {
+  res.status(500).send({ type: err.name, message: err.message });
+});
+
+// Return the application's default page if the path is unknown
+app.use((_req, res) => {
+  res.sendFile('index.html', { root: 'public' });
+});
+
+// setAuthCookie in the HTTP response
+function setAuthCookie(res, authToken) {
+  res.cookie(authCookieName, authToken, {
+    secure: true,
+    httpOnly: true,
+    sameSite: 'strict',
+  });
 }
 
-app.listen(4000, function() {
-  console.log('Server listening on http://localhost:3000');
+const httpService = app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
 });
+
+new PeerProxy(httpService);
