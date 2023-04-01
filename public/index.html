@@ -1,60 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <h1 class="h1">Lightning.io</h1>
-        <ul class="menu">
-            <li onclick='window.location.href="index.html"'>Home</li>
-            <li onclick='window.location.href="about.html"'>About</li>
-            <li onclick='window.location.href="history.html"'>Upload history</li>
-            <li onclick='window.location.href="explore.html"'>Explore</li>
-            <div class="user-actions">
-                <a href="login.html"> <button class="login">Login</button></a>
-                <a href="register.html"><button class="register">Register</button></a>
-                <div id="playerName"></div>
-            </div>
-        </ul>
+    <ul class="menu">
+        <li onclick='window.location.href="index.html"'>Home</li>
+        <li onclick='window.location.href="about.html"'>About</li>
+        <li onclick='window.location.href="history.html"' id="upload" style="display: none">Upload history</li>
+<!--        <li onclick='window.location.href="explore.html"'>Explore</li>-->
+
+        <!-- Displayed when ready to play -->
+        <div id="user-actions" style="display: none">
+            <div id="playerName"></div>
+            <button type="button" class="register" onclick="logout()">
+                Logout
+            </button>
+        </div>
+    </ul>
 
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<!---->
-<div class="content-fluid">
-    <p>Welcome to Lightning.io</p>
-    <p>This is a website that for temporary upload and download files or texts</p>
-    <p>Enjoy!</p>
-
-    <!-- Displayed when needing authentication -->
-    <div id="loginControls" style="display: none">
 
 
+<main class="container-fluid bg-secondary text-center">
+    <div class="login">
+        <h1>Welcome to Lightning.io</h1>
+
+        <h3 class="description">This is a website that for temporary upload and download files or texts, enjoy!</h3>
+        <!-- Displayed when needing authentication -->
+
+        <div id="loginControls" class="login-container">
+            <div class="input-group">
+                <span class="input-group-text">👤</span>
+                <input class="form-control" type="text" id="userName" placeholder="Username">
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">🔒</span>
+                <input class="form-control" type="password" id="userPassword" placeholder="Password">
+            </div>
+            <div class="modal-body"></div>
+            <div class="button-group">
+                <button type="button" class="btn btn-primary" onclick="loginUser()">Login</button>
+                <button type="button" class="btn btn-secondary" onclick="createUser()">Create</button>
+            </div>
+        </div>
 
     </div>
 
+    <!-- Error dialog -->
+    <div class="modal fade" id="msgModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-dark">
+                <div class="modal-body">error message here</div>
+                <div class="modal-footer">
+                    <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 
 <!--    display after login-->
-    <div class="wrapper">
-        <div id="dropzone">
-            <p>Drag and drop files here or click to select files.</p>
-            <input type="file" id="fileInput" name="file" style="display: none;">
-            <div id="file-name"></div>
-        </div>
-        <div class="input-holder">
-            <div class="form-group">
-                <label for="text-input">Text:</label>
-                <input type="text" class="form-control" id="text-input" style="height: 100px;">
-            </div>
-
-        </div>
-        <div class="generate">
-            <button id="submit-button"class="btn btn-primary" onclick="sync()">Generate</button>
-            <button type="button" class="btn btn-secondary" onclick="logout()">
-                Logout
-            </button>
-        </div>
-
+<div class="wrapper" id="wrapper" style="display: none">
+    <div id="dropzone">
+        <p>Drag and drop files here or click to select files.</p>
+        <input type="file" id="fileInput" name="file" style="display: none;">
+        <div id="file-name"></div>
     </div>
-    <script src="loginAndupload.js"></script>
+    <div class="input-holder">
+        <div class="form-group">
+            <textarea rows="4" class="form-control" id="text-area" placeholder="Please type any text you want......" style="height: 100px;" wrap="soft"></textarea>
+             </div>
+    </div>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+
+
+    <div class="generate">
+        <button id="submit-button" class="btn btn-primary" onclick="sync()">Generate</button>
+    </div>
+
+</div>
+
 </div>
 <div class="footer">
     <span class="text-reset">Author: Chris Chau</span>
@@ -62,5 +98,6 @@
     >GitHub</a
     >
 </div>
+<script src="loginAndupload.js"></script>
 </body>
 </html>

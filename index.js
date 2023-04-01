@@ -2,6 +2,7 @@ const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const express = require('express');
 const app = express();
+const multer = require('multer');
 const DB = require('./database.js');
 const { PeerProxy } = require('./peerProxy.js');
 
@@ -31,22 +32,38 @@ apiRouter.post('/auth/create', async (req, res) => {
     const user = await DB.createUser(req.body.email, req.body.password);
 
     // Set the cookie
-    // setAuthCookie(res, user.token);
+    setAuthCookie(res, user.token);
 
     res.send({
       id: user._id,
     });
   }
 });
+//set file
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+});
+const upload = multer({ storage: storage });
+app.post('/upload', upload.single('file'), (req, res) => {
+  res.send('File uploaded successfully!');
+});
+
+app.get('/download/:filename', (req, res) => {
+  const filename = req.params.filename;
+  res.download(`uploads/${filename}`);
+});
+
 
 // GetAuth token for the provided credentials
 apiRouter.post('/auth/login', async (req, res) => {
   const user = await DB.getUser(req.body.email);
-  console.log("current" + user)
   if (user) {
     if (await bcrypt.compare(req.body.password, user.password)) {
-      console.log("reqpassword" + req.body.password);
-      console.log("userpassword" + user.password);
       setAuthCookie(res, user.token);
       res.send({ id: user._id });
       return;
@@ -78,15 +95,12 @@ apiRouter.use(secureApiRouter);
 
 secureApiRouter.use(async (req, res, next) => {
   const authToken = req.cookies[authCookieName];
-  console.log("Authtoken" + authToken);
-  next();
-  // const user = await DB.getUserByToken(authToken);
-  // console.log("Username" + user);
-  // if (user) {
-  //   next();
-  // } else {
-  //   res.status(401).send({ msg: 'Unauthorized' });
-  // }
+  const user = await DB.getUserByToken(authToken);
+  if (user) {
+    next();
+  } else {
+    res.status(401).send({ msg: 'Unauthorized' });
+  }
 });
 
 // GetScores
@@ -120,6 +134,7 @@ function setAuthCookie(res, authToken) {
     sameSite: 'strict',
   });
 }
+
 
 const httpService = app.listen(port, () => {
   console.log(`Listening on port ${port}`);

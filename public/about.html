@@ -6,11 +6,13 @@
         <ul class="menu">
             <li onclick='window.location.href="index.html"'>Home</li>
             <li onclick='window.location.href="about.html"'>About</li>
-            <li onclick='window.location.href="history.html"'>Upload history</li>
-            <li onclick='window.location.href="explore.html"'>Explore</li>
-            <div class="user-actions">
-                <a href="login.html"> <button class="login">Login</button></a>
-                <a href="register.html"><button class="register">Register</button></a>
+            <li onclick='window.location.href="history.html"' id="upload" style="display: none">Upload history</li>
+            <!--        <li onclick='window.location.href="explore.html"'>Explore</li>-->
+            <div id="user-actions" style="display: none">
+                <div id="playerName"></div>
+                <button type="button" class="register" onclick="logout()">
+                    Logout
+                </button>
             </div>
         </ul>
 
@@ -23,7 +25,7 @@
     <p>It is a super simple file sharing service that lets you upload files or text and get a link
         or QR code to share. The files can be automatically deleted after they are downloaded or expired. You can also review your uploaded files by loging in and check out other user's files or texts</p>
 
-    <script src="loginAndupload.js"></script>
+
 </div>
 <div class="footer">
     <span class="text-reset">Author: Chris Chau</span>
@@ -31,5 +33,6 @@
     >GitHub</a
     >
 </div>
+<script src="loginAndupload.js"></script>
 </body>
 </html>

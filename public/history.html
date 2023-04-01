@@ -8,10 +8,11 @@
         <li onclick='window.location.href="index.html"'>Home</li>
         <li onclick='window.location.href="about.html"'>About</li>
         <li onclick='window.location.href="history.html"'>Upload history</li>
-        <li onclick='window.location.href="explore.html"'>Explore</li>
-        <div class="user-actions">
-            <a href="login.html"> <button class="login">Login</button></a>
-            <a href="register.html"><button class="register">Register</button></a>
+        <div id="user-actions" style="display: none">
+            <div id="playerName"></div>
+            <button type="button" class="register" onclick="logout()">
+                Logout
+            </button>
         </div>
     </ul>
 

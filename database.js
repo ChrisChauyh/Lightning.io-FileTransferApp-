@@ -2,6 +2,7 @@ const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 
+
 // const userName = process.env.MONGOUSER;
 // const password = process.env.MONGOPASSWORD;
 // const hostname = process.env.MONGOHOSTNAME;
@@ -17,7 +18,7 @@ const url = `mongodb+srv://${userName}:${password}@${hostname}`;
 
 const client = new MongoClient(url);
 const userCollection = client.db('fileshare').collection('user');
-const scoreCollection = client.db('fileshare').collection('score');
+const scoreCollection = client.db('fileshare').collection('file');
 
 function getUser(email) {
   return userCollection.findOne({ email: email });
@@ -30,8 +31,7 @@ function getUserByToken(token) {
 async function createUser(email, password) {
   // Hash the password before we insert it into the database
   const passwordHash = await bcrypt.hash(password, 10);
-  console.log(email);
-  console.log(password);
+
   const user = {
     email: email,
     password: passwordHash,
