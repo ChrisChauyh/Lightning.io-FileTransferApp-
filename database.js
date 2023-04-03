@@ -61,17 +61,17 @@ async function createFile(email,dateAndTime,fileName,downloadTimes,textinput) {
   return file;
 }
 
-function addScore(score) {
-  scoreCollection.insertOne(score);
+function addDownload(file) {
+  fileCollection.insertOne(file);
 }
 
-function getHighScores() {
+function getLatestDownloads() {
   const query = {};
   const options = {
-    sort: { score: -1 },
+    sort: { date: -1 },
     limit: 10,
   };
-  const cursor = scoreCollection.find(query, options);
+  const cursor = fileCollection.find(query, options);
   return cursor.toArray();
 }
 
@@ -81,6 +81,6 @@ module.exports = {
   getUserByToken,
   createUser,
   createFile,
-  addScore,
-  getHighScores,
+  // addDownload,
+  getLatestDownloads,
 };

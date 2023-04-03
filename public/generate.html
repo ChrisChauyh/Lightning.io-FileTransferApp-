@@ -24,10 +24,9 @@
     <div class="row">
         <div class="col-md-6">
             <div class="text-center">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?data=HelloWorld&amp;size=100x100" alt="" title="" />
-                <img src="https://api.qrserver.com/v1/create-qr-code/?data=Hello+World&amp;size=200x200" alt="QR Code">
+                <img alt="QR Code" id="qrimage">
                 <br><br>
-                <button class="btn btn-primary">Download</button>
+                <a id="downloadbtn"><button class="btn btn-primary">Download</button></a>
             </div>
         </div>
         <div class="col-md-6">
@@ -40,6 +39,8 @@
 
 
 </div>
+<script>src="generate.js"</script>
+
 <div class="footer">
     <span class="text-reset">Author: Chris Chau</span>
     <a class="text-reset" href="https://github.com/ChrisChauyh/startup"

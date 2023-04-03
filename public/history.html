@@ -19,26 +19,24 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<div class="content-fluid">
-    <h2 class="history-title">Upload History</h2>
-    <ul class="history-list">
-        <li class="history-item">
-            <span class="history-name">File A</span>
-            <span class="history-date">2023-02-22</span>
-            <a href="#" class="history-download">Download</a>
-        </li>
-        <li class="history-item">
-            <span class="history-name">File B</span>
-            <span class="history-date">2023-02-21</span>
-            <a href="#" class="history-download">Download</a>
-        </li>
-        <li class="history-item">
-            <span class="history-name">File C</span>
-            <span class="history-date">2023-02-20</span>
-            <a href="#" class="history-download">Download</a>
-        </li>
-    </ul>
-</div>
+<main class="container-fluid bg-secondary text-center">
+    <table class="table table-warning table-striped-columns">
+        <thead class="table-dark">
+        <tr>
+
+            <th>FileName</th>
+            <th>Text</th>
+            <th>Date&Time</th>
+            <th>Download Times</th>
+            <th><a href="#" class="history-download">Download</a></th>>
+        </tr>
+        </thead>
+        <tbody id="scores"></tbody>
+    </table>
+</main>
+
+
+<script>src="history.js"</script>
 <div class="footer">
     <span class="text-reset">Author: Chris Chau</span>
     <a class="text-reset" href="https://github.com/ChrisChauyh/startup"

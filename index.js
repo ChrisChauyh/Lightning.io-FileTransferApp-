@@ -55,11 +55,10 @@ app.post('/upload', upload.single('file'), async (req, res) => {
   const userName = req.body.email;
   const fileName = req.body.filenametext;
   const textInput = req.body.textinput;
-  console.log(userName + fileName+textInput);
-  // const file = await DB.getFile(req.body.filenametext);
-  // if(file){
+  const file = await DB.getFile(req.body.filenametext);
+  if(file){
 
-    //TODO setup download path and downloadTimes and username
+    //TODO setup downloadTimes
     var date = new Date();
     // get the date as a string
     var total = date.toDateString()+ date.toLocaleTimeString();
@@ -68,9 +67,9 @@ app.post('/upload', upload.single('file'), async (req, res) => {
       id: fileData._id,
     });
 
-  // }else{
-  //   res.status(404).send({ msg: 'Unknown' });
-  // }
+  }else{
+    res.status(404).send({ msg: 'Unknown' });
+  }
 
 });
 
@@ -130,7 +129,10 @@ secureApiRouter.get('/scores', async (req, res) => {
   const scores = await DB.getHighScores();
   res.send(scores);
 });
-
+secureApiRouter.get('/downloads', async (req, res) => {
+  const downloads = await DB.getLatestDownloads();
+  res.send(downloads);
+});
 // SubmitScore
 secureApiRouter.post('/score', async (req, res) => {
   await DB.addScore(req.body);
