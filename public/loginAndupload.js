@@ -7,7 +7,6 @@
         const user = await getUser(nameEl.value);
         authenticated = user?.authenticated;
     }
-    console.log(userName);
     if (authenticated) {
         document.querySelector('#playerName').textContent = "User: "+ userName;
         setDisplay('loginControls', 'none');
@@ -24,11 +23,10 @@
 })();
 
 async function loginUser() {
-    loginOrCreate(`/api/auth/login`);
+    await loginOrCreate(`/api/auth/login`);
 }
-
 async function createUser() {
-    loginOrCreate(`/api/auth/create`);
+    await loginOrCreate(`/api/auth/create`);
 }
 
 async function loginOrCreate(endpoint) {
@@ -45,7 +43,7 @@ async function loginOrCreate(endpoint) {
 
     if (response?.status === 200) {
         localStorage.setItem('userName', userName);
-        window.location.href = 'play.html';
+        window.location.href = 'index.html';
     } else {
         const modalEl = document.querySelector('#msgModal');
         modalEl.querySelector('.modal-body').textContent = `⚠ Error: ${body.msg}`;
@@ -54,6 +52,21 @@ async function loginOrCreate(endpoint) {
     }
 }
 
+function setdata(){
+    localStorage.setItem("texts",document.getElementById("text-area").value);
+    const playerNameReferenceElement = document.getElementById("playerNameReference");
+    playerNameReferenceElement.value = localStorage.getItem('userName');
+
+    const textinputelementreference = document.getElementById("textinputReference");
+    textinputelementreference.value =  localStorage.getItem("texts");
+
+    const filenamereference = document.getElementById("file-namereference");
+    filenamereference.value = localStorage.getItem("localfilename");
+    fetch('/upload', {
+        method: 'post',
+    }).then(()=>(window.location.href='/generate.html'));
+
+}
 
 function logout() {
     fetch(`/api/auth/logout`, {
@@ -103,34 +116,19 @@ dropzone.addEventListener('drop', function(e) {
     // Display the name of the first uploaded file
     if (files.length > 0) {
         fileName.textContent = 'Uploaded file: ' + files[0].name;
+        localStorage.setItem("localfilename",files[0].name);
     }
-    // Do something with the dropped files
 });
 fileInput.addEventListener('change', function(e) {
     var files = e.target.files;
     console.log(files);
     if (files.length > 0) {
         fileName.textContent = 'Uploaded file: ' + files[0].name;
+        localStorage.setItem("localfilename",files[0].name);
     }
+
     // Do something with the selected file(s)
 });
-
-//get text from index.html
-function sync(){
-    const submitButton = document.getElementById('submit-button');
-    const textInput = document.getElementById('text-input');
-
-    submitButton.addEventListener('click', () => {
-        const text = textInput.value;
-        window.location.href = `generate.html?text=${encodeURIComponent(text)}`;
-
-        fetch(`/upload`, {
-            method: 'post',
-        }).then(() => (window.location.href = '/'));
-
-    });
-}
-
 
 
 //show text

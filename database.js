@@ -18,7 +18,12 @@ const url = `mongodb+srv://${userName}:${password}@${hostname}`;
 
 const client = new MongoClient(url);
 const userCollection = client.db('fileshare').collection('user');
-const scoreCollection = client.db('fileshare').collection('file');
+const fileCollection = client.db('fileshare').collection('filedata');
+
+function getFile(file)
+{
+  return fileCollection.findOne({file:file});
+}
 
 function getUser(email) {
   return userCollection.findOne({ email: email });
@@ -42,6 +47,20 @@ async function createUser(email, password) {
   return user;
 }
 
+async function createFile(email,dateAndTime,fileName,downloadTimes,textinput) {
+
+  const file = {
+    username: email,
+    date: dateAndTime,
+    name: fileName,
+    count: downloadTimes,
+    text: textinput
+  };
+  await fileCollection.insertOne(file);
+
+  return file;
+}
+
 function addScore(score) {
   scoreCollection.insertOne(score);
 }
@@ -58,8 +77,10 @@ function getHighScores() {
 
 module.exports = {
   getUser,
+  getFile,
   getUserByToken,
   createUser,
+  createFile,
   addScore,
   getHighScores,
 };

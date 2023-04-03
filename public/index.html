@@ -69,25 +69,27 @@
 
 <!--    display after login-->
 <div class="wrapper" id="wrapper" style="display: none">
-    <div id="dropzone">
-        <p>Drag and drop files here or click to select files.</p>
-        <input type="file" id="fileInput" name="file" style="display: none;">
-        <div id="file-name"></div>
-    </div>
+
     <div class="input-holder">
         <div class="form-group">
             <textarea rows="4" class="form-control" id="text-area" placeholder="Please type any text you want......" style="height: 100px;" wrap="soft"></textarea>
              </div>
     </div>
     <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="Upload">
+        <div id="dropzone">
+            <p>Drag and drop files here or click to select files.</p>
+            <input type="file" id="fileInput" name="file" style="display: none;">
+            <div id="file-name" name="filename"></div>
+
+            <input id="playerNameReference" name="email" style="display: none">
+            <input id="file-namereference" name="filenametext" style="display: none">
+            <input id="textinputReference" name="textinput" style="display: none">
+
+        </div>
+        <input type="submit" value="Generate"  class="btn btn-primary"  onclick=setdata()>
     </form>
 
 
-    <div class="generate">
-        <button id="submit-button" class="btn btn-primary" onclick="sync()">Generate</button>
-    </div>
 
 </div>
 
@@ -98,6 +100,6 @@
     >GitHub</a
     >
 </div>
-<script src="loginAndupload.js"></script>
+<script  src="loginAndupload.js"></script>
 </body>
 </html>

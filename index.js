@@ -49,12 +49,34 @@ const storage = multer.diskStorage({
   }
 });
 const upload = multer({ storage: storage });
-app.post('/upload', upload.single('file'), (req, res) => {
-  res.send('File uploaded successfully!');
+app.post('/upload', upload.single('file'), async (req, res) => {
+
+
+  const userName = req.body.email;
+  const fileName = req.body.filenametext;
+  const textInput = req.body.textinput;
+  console.log(userName + fileName+textInput);
+  // const file = await DB.getFile(req.body.filenametext);
+  // if(file){
+
+    //TODO setup download path and downloadTimes and username
+    var date = new Date();
+    // get the date as a string
+    var total = date.toDateString()+ date.toLocaleTimeString();
+    const fileData = await DB.createFile(userName,total,fileName,"1", textInput);
+    res.send({
+      id: fileData._id,
+    });
+
+  // }else{
+  //   res.status(404).send({ msg: 'Unknown' });
+  // }
+
 });
 
 app.get('/download/:filename', (req, res) => {
   const filename = req.params.filename;
+  //TODO add 1 download count everytime someone downloads the file (websocket)
   res.download(`uploads/${filename}`);
 });
 
