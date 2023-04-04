@@ -70,25 +70,26 @@
 <!--    display after login-->
 <div class="wrapper" id="wrapper" style="display: none">
 
-    <div class="input-holder">
-            <textarea rows="4" class="form-control" id="text-area" placeholder="Please type any text you want......" style="height: 100px;" wrap="soft"></textarea>
+
+    <div class="form-container">
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <div class="form-row">
+                <div id="dropzone">
+                    <p>Drag and drop files here or click to select files.</p>
+                    <input type="file" id="fileInput" name="file" style="display: none;">
+                    <div id="file-name" name="filename"></div>
+
+                    <input id="playerNameReference" name="email" style="display: none">
+                    <input id="file-namereference" name="filenametext" style="display: none">
+                    <input id="textinputReference" name="textinput" style="display: none">
+                </div>
+                <div class="input-holder">
+                    <textarea rows="10" class="form-control" id="text-area" placeholder="Please type any text you want......" style="height: 100px;" wrap="soft"></textarea>
+                </div>
+            </div>
+            <input type="submit" value="Generate"  class="btn btn-primary" onclick=setdata()>
+        </form>
     </div>
-    //action="/upload" method="post" enctype="multipart/form-data"
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <div id="dropzone">
-            <p>Drag and drop files here or click to select files.</p>
-            <input type="file" id="fileInput" name="file" style="display: none;">
-            <div id="file-name" name="filename"></div>
-
-            <input id="playerNameReference" name="email" style="display: none">
-            <input id="file-namereference" name="filenametext" style="display: none">
-            <input id="textinputReference" name="textinput" style="display: none">
-
-        </div>
-        <input type="submit" value="Generate"  class="btn btn-primary"  onclick=setdata()>
-    </form>
-
-
 
 </div>
 
