@@ -51,12 +51,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 app.post('/upload', upload.single('file'), async (req, res) => {
 
-
   const userName = req.body.email;
   const fileName = req.body.filenametext;
   const textInput = req.body.textinput;
   const file = await DB.getFile(req.body.filenametext);
-  if(file){
+  // if(!file){
 
     //TODO setup downloadTimes
     var date = new Date();
@@ -67,9 +66,9 @@ app.post('/upload', upload.single('file'), async (req, res) => {
       id: fileData._id,
     });
 
-  }else{
-    res.status(404).send({ msg: 'Unknown' });
-  }
+  // }else{
+  //   res.status(404).send({ msg: 'Unknown' });
+  // }
 
 });
 
@@ -77,6 +76,8 @@ app.get('/download/:filename', (req, res) => {
   const filename = req.params.filename;
   //TODO add 1 download count everytime someone downloads the file (websocket)
   res.download(`uploads/${filename}`);
+
+
 });
 
 
@@ -124,11 +125,7 @@ secureApiRouter.use(async (req, res, next) => {
   }
 });
 
-// GetScores
-secureApiRouter.get('/scores', async (req, res) => {
-  const scores = await DB.getHighScores();
-  res.send(scores);
-});
+// GetDownloads
 secureApiRouter.get('/downloads', async (req, res) => {
   const downloads = await DB.getLatestDownloads();
   res.send(downloads);
