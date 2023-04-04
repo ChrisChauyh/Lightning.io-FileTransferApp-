@@ -51,35 +51,43 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 app.post('/upload', upload.single('file'), async (req, res) => {
 
+
   const userName = req.body.email;
   const fileName = req.body.filenametext;
   const textInput = req.body.textinput;
+  const date = new Date();
+  // get the date as a string
+  const total = date.toDateString()+" "+date.toLocaleTimeString();
+  // const file = await DB.getFile(req.body.filenametext);
+  if(userName != null){
 
-  const file = await DB.getFile(req.body.filenametext);
-  if(!file){
 
-    //TODO setup downloadTimes
-    var date = new Date();
-    // get the date as a string
-    var total = date.toDateString()+ date.toLocaleTimeString();
-    const fileData = await DB.createFile(userName,total,fileName,"1", textInput);
-    res.send({
-      id: fileData._id,
-    });
+    const fileData = await DB.createFile(userName,total,fileName,0, textInput);
+    res.redirect('/generate.html');
 
-  }else{
+  }
+  // else{
+  //   res.status(404).send({ msg: 'Unknown' });
+  // }
+
+});
+//TODO create websocket share texts
+app.get('/download/:filename', async (req, res) => {
+  const filename = req.params.filename;
+  const file = await DB.getFile(filename);
+  if (file) {
+    // Increment the download count
+    file.downloadTimes++;
+    await DB.addDownload(file);
+
+    // Send the file to the client for download
+    res.download(`uploads/${filename}`);
+  } else {
     res.status(404).send({ msg: 'Unknown' });
   }
-
 });
 
-app.get('/download/:filename', (req, res) => {
-  const filename = req.params.filename;
-  //TODO add 1 download count everytime someone downloads the file (websocket)
-  res.download(`uploads/${filename}`);
 
-
-});
 
 
 // GetAuth token for the provided credentials

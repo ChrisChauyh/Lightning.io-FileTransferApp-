@@ -3,10 +3,12 @@ const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 
 
-const userName = process.env.MONGOUSER;
-const password = process.env.MONGOPASSWORD;
-const hostname = process.env.MONGOHOSTNAME;
-
+// const userName = process.env.MONGOUSER;
+// const password = process.env.MONGOPASSWORD;
+// const hostname = process.env.MONGOHOSTNAME;
+const userName = "anonymous4586";
+const password = "dRLR30RqtbLVXxqFs";
+const hostname = "cluster4586.ihxvlbq.mongodb.net";
 
 if (!userName) {
   throw Error('Database not configured. Set environment variables');
@@ -20,7 +22,7 @@ const fileCollection = client.db('fileshare').collection('filedata');
 
 function getFile(file)
 {
-  return fileCollection.findOne({file:file});
+  return fileCollection.findOne({name:file});
 }
 
 function getUser(email) {
@@ -51,7 +53,7 @@ async function createFile(email,dateAndTime,fileName,downloadTimes,textinput) {
     username: email,
     date: dateAndTime,
     name: fileName,
-    count: downloadTimes,
+    count: parseInt(downloadTimes, 10),
     text: textinput
   };
   await fileCollection.insertOne(file);
@@ -60,7 +62,12 @@ async function createFile(email,dateAndTime,fileName,downloadTimes,textinput) {
 }
 
 function addDownload(file) {
-  fileCollection.insertOne(file);
+  const update = {
+    $inc: {
+      count: 1, // set the new value for the downloadTimes field
+    }
+  };
+  fileCollection.updateOne({ date: file.date }, update);
 }
 
 function getLatestDownloads() {
@@ -70,14 +77,7 @@ function getLatestDownloads() {
     limit: 10,
   };
   const cursor = fileCollection.find(query, options);
-  return cursor.toArray()
-      .then(downloads => {
-        // Convert the date strings to Date objects and return the sorted downloads
-        return downloads.map(download => {
-          download.date = new Date(download.date);
-          return download;
-        }).sort((a, b) => a.date - b.date);
-      });
+  return cursor.toArray();
 }
 
 module.exports = {
@@ -86,6 +86,6 @@ module.exports = {
   getUserByToken,
   createUser,
   createFile,
-  // addDownload,
+  addDownload,
   getLatestDownloads,
 };

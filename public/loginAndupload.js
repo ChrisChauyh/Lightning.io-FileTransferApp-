@@ -63,9 +63,6 @@ function setdata(){
     const filenamereference = document.getElementById("file-namereference");
     filenamereference.value = localStorage.getItem("localfilename");
 
-    fetch('/upload', {
-        method: 'post',
-    }).then(()=>(window.location.href='/generate.html'));
 
 }
 
