@@ -72,7 +72,14 @@ function getLatestDownloads() {
     limit: 10,
   };
   const cursor = fileCollection.find(query, options);
-  return cursor.toArray();
+  return cursor.toArray()
+      .then(downloads => {
+        // Convert the date strings to Date objects and return the sorted downloads
+        return downloads.map(download => {
+          download.date = new Date(download.date);
+          return download;
+        }).sort((a, b) => a.date - b.date);
+      });
 }
 
 module.exports = {

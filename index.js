@@ -54,8 +54,9 @@ app.post('/upload', upload.single('file'), async (req, res) => {
   const userName = req.body.email;
   const fileName = req.body.filenametext;
   const textInput = req.body.textinput;
+
   const file = await DB.getFile(req.body.filenametext);
-  // if(!file){
+  if(!file){
 
     //TODO setup downloadTimes
     var date = new Date();
@@ -66,9 +67,9 @@ app.post('/upload', upload.single('file'), async (req, res) => {
       id: fileData._id,
     });
 
-  // }else{
-  //   res.status(404).send({ msg: 'Unknown' });
-  // }
+  }else{
+    res.status(404).send({ msg: 'Unknown' });
+  }
 
 });
 

@@ -5,13 +5,15 @@ async function loadDownloads() {
         const response = await fetch('/api/downloads');
         downloads = await response.json();
 
-        // Save the scores in case we go offline in the future
+        // Save the downloads in case we go offline in the future
         localStorage.setItem('downloads', JSON.stringify(downloads));
-    } catch {
-        // If there was an error then just use the last saved scores
+    } catch (error) {
+        // If there was an error then just use the last saved downloads
         const downloadsText = localStorage.getItem('downloads');
         if (downloadsText) {
             downloads = JSON.parse(downloadsText);
+        } else {
+            console.error(error);
         }
     }
 
@@ -22,36 +24,38 @@ function displayDownloads(downloads) {
     const tableBodyEl = document.querySelector('#scores');
 
     if (downloads.length) {
-        // Update the DOM with the scores
+        // Update the DOM with the downloads
         for (const [i, download] of downloads.entries()) {
             const positionTdEl = document.createElement('td');
-            const nameTdEl = document.createElement('td');
-            const scoreTdEl = document.createElement('td');
+            const filenameTdEl = document.createElement('td');
+            const textTdEl = document.createElement('td');
             const dateTdEl = document.createElement('td');
-
+            const timeTdEl = document.createElement('td');
+            const buttonTdEl = document.createElement('button');
+            const downloadLink = document.createElement('a');
             positionTdEl.textContent = i + 1;
-            nameTdEl.textContent = download.email;
-            scoreTdEl.textContent = download.filenametext;
-            dateTdEl.textContent = download.textinput;
+            filenameTdEl.textContent = download.name;
+            textTdEl.textContent = download.text;
+            dateTdEl.textContent = download.date;
+            timeTdEl.textContent = download.count;
+
+            downloadLink.href = "http://" + window.location.hostname + ":" + window.location.port + "/download/" + download.name;
+            buttonTdEl.textContent = 'Download';
+            downloadLink.appendChild(buttonTdEl);
 
             const rowEl = document.createElement('tr');
             rowEl.appendChild(positionTdEl);
-            rowEl.appendChild(nameTdEl);
-            rowEl.appendChild(scoreTdEl);
+            rowEl.appendChild(filenameTdEl);
+            rowEl.appendChild(textTdEl);
             rowEl.appendChild(dateTdEl);
+            rowEl.appendChild(timeTdEl);
+            rowEl.appendChild(downloadLink);
 
             tableBodyEl.appendChild(rowEl);
         }
     } else {
-        tableBodyEl.innerHTML = '<tr><td colSpan=4>Be the first to score</td></tr>';
+        tableBodyEl.innerHTML = '<tr><td colspan=4>No downloads found</td></tr>';
     }
 }
-// const random = Math.floor(Math.random() * 1000);
-// callService(
-//     `https://picsum.photos/v2/list?page=${random}&limit=1`,
-//     displayPicture
-// );
-// callService("https://api.quotable.io/random", displayQuote);
-
 
 loadDownloads();
