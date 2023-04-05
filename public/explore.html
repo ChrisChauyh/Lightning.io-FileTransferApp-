@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="explore.js"></script>
+    <script src="loginAndupload.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <h1 class="h1">Lightning.io</h1>
@@ -9,7 +11,7 @@
         <li onclick='window.location.href="about.html"'>About</li>
         <li onclick='window.location.href="history.html"'>Upload history</li>
         <li onclick='window.location.href="explore.html"'>Explore other's uploads</li>
-        <div id="user-actions" style="display: none">
+        <div id="user-actions" >
             <div id="playerName"></div>
             <button type="button" class="register" onclick="logout()">
                 Logout
@@ -37,7 +39,7 @@
 </main>
 
 
-<script src="explore.js"></script>
+
 <div class="footer">
     <span class="text-reset">Author: Chris Chau</span>
     <a class="text-reset" href="https://github.com/ChrisChauyh/startup"

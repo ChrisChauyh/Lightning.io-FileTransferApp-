@@ -139,12 +139,6 @@ secureApiRouter.get('/downloads', async (req, res) => {
   const downloads = await DB.getLatestDownloads();
   res.send(downloads);
 });
-// SubmitScore
-secureApiRouter.post('/score', async (req, res) => {
-  await DB.addScore(req.body);
-  const scores = await DB.getHighScores();
-  res.send(scores);
-});
 
 // Default error handler
 app.use(function (err, req, res, next) {
