@@ -12,12 +12,14 @@
         setDisplay('loginControls', 'none');
         setDisplay('user-actions', 'block');
         setDisplay('upload', 'block');
+        setDisplay('explore', 'block');
         setDisplay('wrapper', 'block');
 
     } else {
         setDisplay('loginControls', 'block');
         setDisplay('user-actions', 'none');
         setDisplay('upload', 'none');
+        setDisplay('explore', 'none');
         setDisplay('wrapper', 'none');
     }
 })();

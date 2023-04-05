@@ -1,43 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <h1 class="h1">Lightning.io</h1>
-        <ul class="menu">
-            <li onclick='window.location.href="index.html"'>Home</li>
-            <li onclick='window.location.href="about.html"'>About</li>
-            <li onclick='window.location.href="history.html"'>Upload history</li>
-            <li onclick='window.location.href="explore.html"'>Explore</li>
-            <div class="user-actions">
-                <a href="login.html"> <button class="login">Login</button></a>
-                <a href="register.html"><button class="register">Register</button></a>
-            </div>
-        </ul>
+    <ul class="menu">
+        <li onclick='window.location.href="index.html"'>Home</li>
+        <li onclick='window.location.href="about.html"'>About</li>
+        <li onclick='window.location.href="history.html"'>Upload history</li>
+        <li onclick='window.location.href="explore.html"'>Explore other's uploads</li>
+        <div id="user-actions" style="display: none">
+            <div id="playerName"></div>
+            <button type="button" class="register" onclick="logout()">
+                Logout
+            </button>
+        </div>
+    </ul>
 
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<div class="content-fluid">
-        <h2 class="history-title">Explore other user's uploads history</h2>
-        <ul class="history-list">
-            <li class="history-item">
-                <span class="history-name">Chris</span>
-                <span class="history-date">2023-02-22</span>
-                <a href="#" class="history-download">Request Download</a>
-            </li>
-            <li class="history-item">
-                <span class="history-name">Ken</span>
-                <span class="history-date">2023-02-21</span>
-                <a href="#" class="history-download">Request Download</a>
-            </li>
-            <li class="history-item">
-                <span class="history-name">Simon</span>
-                <span class="history-date">2023-02-20</span>
-                <a href="#" class="history-download">Request Download</a>
-            </li>
-        </ul>
-    <script src="loginAndupload.js"></script>
-</div>
+<main class="container-fluid bg-secondary text-center">
+    <table class="table table-warning table-striped-columns">
+        <thead class="table-dark">
+        <tr>
+            <th>Item</th>
+            <th>FileName</th>
+            <th>Text</th>
+            <th>Date&Time</th>
+            <th>Download Times</th>
+            <th>Download Link</th>
+        </tr>
+        </thead>
+        <tbody id="uploads"></tbody>
+    </table>
+</main>
+
+
+<script src="explore.js"></script>
 <div class="footer">
     <span class="text-reset">Author: Chris Chau</span>
     <a class="text-reset" href="https://github.com/ChrisChauyh/startup"
