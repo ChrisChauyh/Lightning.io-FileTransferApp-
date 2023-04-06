@@ -21,11 +21,12 @@ class PeerProxy {
       connections.push(connection);
 
       // Forward messages to everyone except the sender
-      ws.on('message', function message(data) {
+      ws.on('message', function message(user,value) {
+        //localStorage.getItem('userName')
+        const message = `${user}`;
+
         connections.forEach((c) => {
-          if (c.id !== connection.id) {
-            c.ws.send(data);
-          }
+            c.ws.send(message);
         });
       });
 
