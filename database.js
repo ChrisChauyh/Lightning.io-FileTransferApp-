@@ -22,7 +22,7 @@ const fileCollection = client.db('fileshare').collection('filedata');
 
 function getFile(file)
 {
-  return fileCollection.findOne({name:file});
+  return fileCollection.findOne({downloadLink:file});
 }
 
 function getUser(email) {
@@ -47,14 +47,17 @@ async function createUser(email, password) {
   return user;
 }
 
-async function createFile(email,dateAndTime,fileName,downloadTimes,textinput) {
+async function createFile(email,dateAndTime,fileName,downloadTimes,textinput,public,fileNameHash) {
 
+  // Hash the fileNames before we insert it into the database
   const file = {
     username: email,
     date: dateAndTime,
     name: fileName,
+    downloadLink: fileNameHash,
     count: parseInt(downloadTimes, 10),
-    text: textinput
+    text: textinput,
+    public: public
   };
   await fileCollection.insertOne(file);
 

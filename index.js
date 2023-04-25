@@ -5,7 +5,6 @@ const app = express();
 const multer = require('multer');
 const DB = require('./database.js');
 const { PeerProxy } = require('./peerProxy.js');
-
 const authCookieName = 'token';
 
 // The service port may be set on the command line
@@ -39,39 +38,30 @@ apiRouter.post('/auth/create', async (req, res) => {
     });
   }
 });
-//set file
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/')
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname)
-  }
-});
-const upload = multer({ storage: storage });
-app.post('/upload', upload.single('file'), async (req, res) => {
 
+const upload = multer({ dest: "uploads" });
+app.post('/upload',  upload.single('file'), async (req, res) => {
 
   const userName = req.body.email;
   const fileName = req.body.filenametext;
   const textInput = req.body.textinput;
+  const fileNameHash = req.file.filename;
+  const show = req.body.public;
   const date = new Date();
   // get the date as a string
   const total = date.toDateString()+" "+date.toLocaleTimeString();
-  // const file = await DB.getFile(req.body.filenametext);
   if(userName != null){
 
-
-    const fileData = await DB.createFile(userName,total,fileName,0, textInput);
-    res.redirect('/generate.html');
-
+    const fileData = await DB.createFile(userName,total,fileName,0, textInput,show,fileNameHash);
+    res.redirect('/generate.html?value=' + fileNameHash);
   }
-  // else{
-  //   res.status(404).send({ msg: 'Unknown' });
-  // }
-
+  else{
+    res.status(404).send({ msg: 'Unknown' });
+  }
 });
 //TODO create websocket share texts
+
+// GetFile returns information about a file
 app.get('/download/:filename', async (req, res) => {
   const filename = req.params.filename;
   const file = await DB.getFile(filename);
@@ -79,9 +69,8 @@ app.get('/download/:filename', async (req, res) => {
     // Increment the download count
     file.downloadTimes++;
     await DB.addDownload(file);
-
     // Send the file to the client for download
-    res.download(`uploads/${filename}`);
+    res.download(`uploads/${filename}`, file.name);
   } else {
     res.status(404).send({ msg: 'Unknown' });
   }

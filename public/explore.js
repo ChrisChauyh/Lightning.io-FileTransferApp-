@@ -1,6 +1,4 @@
-// Event messages
-const GameEndEvent = 'gameEnd';
-const GameStartEvent = 'gameStart';
+
 async function loadUploads() {
     let uploads = [];
     try {

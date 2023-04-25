@@ -93,6 +93,7 @@ function setDisplay(controlId, display) {
 var dropzone = document.getElementById('dropzone');
 var fileInput = document.getElementById('fileInput');
 var fileName = document.getElementById('file-name');
+var filehash = document.getElementById('file-hash');
 
 
 dropzone.addEventListener('click', function(e) {
@@ -108,7 +109,7 @@ dropzone.addEventListener('dragleave', function(e) {
     dropzone.classList.remove('dragover');
 });
 
-dropzone.addEventListener('drop', function(e) {
+dropzone.addEventListener('drop', function (e) {
     e.preventDefault();
     dropzone.classList.remove('dragover');
     var files = e.dataTransfer.files;
@@ -116,15 +117,15 @@ dropzone.addEventListener('drop', function(e) {
     // Display the name of the first uploaded file
     if (files.length > 0) {
         fileName.textContent = 'Uploaded file: ' + files[0].name;
-        localStorage.setItem("localfilename",files[0].name);
+        localStorage.setItem("localfilename", files[0].name);
     }
 });
-fileInput.addEventListener('change', function(e) {
+fileInput.addEventListener('change',  function (e) {
     var files = e.target.files;
     console.log(files);
     if (files.length > 0) {
         fileName.textContent = 'Uploaded file: ' + files[0].name;
-        localStorage.setItem("localfilename",files[0].name);
+        localStorage.setItem("localfilename", files[0].name);
     }
 
     // Do something with the selected file(s)
