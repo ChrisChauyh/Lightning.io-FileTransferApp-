@@ -41,7 +41,7 @@ function displayDownloads(downloads) {
                 dateTdEl.textContent = download.date;
                 timeTdEl.textContent = download.count;
 
-                downloadLink.href = "https://" + window.location.hostname + ":" + window.location.port + "/download/" + download.name;
+                downloadLink.href = "https://" + window.location.hostname + ":" + window.location.port + "/download/" + download.downloadLink;
                 buttonTdEl.textContent = 'Download';
                 downloadLink.appendChild(buttonTdEl);
 
