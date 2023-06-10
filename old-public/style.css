@@ -43,7 +43,7 @@ body {
     cursor: pointer;
 }
 
-/* Login and register styles */
+/* Explore and register styles */
 .user-actions {
     display: flex;
     justify-content: flex-end;

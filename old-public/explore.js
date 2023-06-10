@@ -39,7 +39,6 @@ function displayuploads(uploads) {
                 const etextTdEl = document.createElement('td');
                 const edateTdEl = document.createElement('td');
                 const etimeTdEl = document.createElement('td');
-                const euserTdEl = document.createElement('td');
                 const ebuttonTdEl = document.createElement('button');
                 const edownloadLink = document.createElement('a');
                 epositionTdEl.textContent = i+1;
@@ -47,10 +46,9 @@ function displayuploads(uploads) {
                 etextTdEl.textContent = upload.text;
                 edateTdEl.textContent = upload.date;
                 etimeTdEl.textContent = upload.count;
-                euserTdEl.textContent = upload.username;
 
 
-                edownloadLink.href = "https://" + window.location.hostname + ":" + window.location.port + "/download/" + upload.downloadLink;
+                edownloadLink.href = "https://" + window.location.hostname + ":" + window.location.port + "/download/" + upload.name;
                 ebuttonTdEl.textContent = 'Download';
                 edownloadLink.appendChild(ebuttonTdEl);
 
@@ -60,7 +58,6 @@ function displayuploads(uploads) {
                 erowEl.appendChild(etextTdEl);
                 erowEl.appendChild(edateTdEl);
                 erowEl.appendChild(etimeTdEl);
-                erowEl.appendChild(euserTdEl);
                 erowEl.appendChild(edownloadLink);
 
                 etableBodyEl.appendChild(erowEl);
