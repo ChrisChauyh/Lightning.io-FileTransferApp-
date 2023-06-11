@@ -8,7 +8,7 @@ const { PeerProxy } = require('./peerProxy.js');
 const authCookieName = 'token';
 
 // The service port may be set on the command line
-const port = process.argv.length > 2 ? process.argv[2] : 4000;
+const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
 // JSON body parsing using built-in middleware
 app.use(express.json());
@@ -114,13 +114,14 @@ var secureApiRouter = express.Router();
 apiRouter.use(secureApiRouter);
 
 secureApiRouter.use(async (req, res, next) => {
-  const authToken = req.cookies[authCookieName];
-  const user = await DB.getUserByToken(authToken);
-  if (user) {
-    next();
-  } else {
-    res.status(401).send({ msg: 'Unauthorized' });
-  }
+  // const authToken = req.cookies[authCookieName];
+  // const user = await DB.getUserByToken(authToken);
+  // if (user) {
+  //   next();
+  // } else {
+  //   res.status(401).send({ msg: 'Unauthorized' });
+  // }
+  next();
 });
 
 // GetDownloads
