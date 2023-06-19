@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+// import './explore.css';
 export function Explore() {
     const [uploads, setUploads] = useState([]);
 
@@ -33,6 +33,16 @@ export function Explore() {
                 const edownloadLink = document.createElement("a");
                 epositionTdEl.textContent = i + 1;
                 efilenameTdEl.textContent = upload.name;
+                if(upload.text.length < 1)
+                {
+                    upload.text = "(---No text---)";
+                }else if(upload.text.length > 20)
+                {
+                    upload.text = upload.text.substring(0, 20) + "...";
+
+                }else{
+                    upload.text = upload.text;
+                }
                 etextTdEl.textContent = upload.text;
                 edateTdEl.textContent = upload.date;
                 etimeTdEl.textContent = upload.count;
