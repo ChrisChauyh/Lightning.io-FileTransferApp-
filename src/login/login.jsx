@@ -1,11 +1,24 @@
-
 import React from "react";
-import {NavLink} from "react-router-dom";
-export function Login() {
-  return (
-      <main className='container-fluid bg-secondary text-center'>
-          <div>login here</div>
-          <li><NavLink className="nav-link" to='upload'>Upload</NavLink></li>
+import {Unauthenticated} from "./unauthenticated";
+import {Authenticated} from "./authenticated";
+import {AuthState} from "./authState";
+
+export function Login({userName, authState, onAuthChange}) {
+    return (
+        <main className='container-fluid bg-secondary text-center'>
+            <div>
+                {authState !== AuthState.Unknown && <h1>Welcome to Lightning.io</h1>}
+                {authState === AuthState.Authenticated && (
+                    <Authenticated userName={userName}
+                                   onlogout={() => onAuthChange(userName, AuthState.Unauthenticated)}/>
+                )}
+                {authState === AuthState.Unauthenticated && (
+                    <Unauthenticated userName={userName} onlogin={(loginUserName) => {
+                        onAuthChange(loginUserName, AuthState.Authenticated);
+                    }}
+                    />
+                )}
+            </div>
         </main>
-  );
+    );
 }
