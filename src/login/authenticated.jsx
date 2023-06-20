@@ -5,6 +5,8 @@ import {NavLink, useNavigate} from "react-router-dom";
 export function Authenticated(props) {
     const navigate = useNavigate();
 
+
+
     return (
         <div className="form-container">
             <form action="/upload" method="post" encType="multipart/form-data">

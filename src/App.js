@@ -32,7 +32,7 @@ function App() {
     const [authState, setAuthState] = React.useState(AuthState.Unknown);
 
 
-    React.useEffect(() => {
+    useEffect(() => {
             if (userName) {
                 fetch(`/api/user/${userName}`)
                     .then((res) => {
@@ -57,18 +57,21 @@ function App() {
                 <header>
                     <nav className="navbar navbar-expand-lg navbar-light bg-light">
                         <h1 className="h1">
-                            <a className="nav-link" href="index.html">Lightning.io</a>
+                            <a className="nav-link" href="">Lightning.io</a>
                         </h1>
                         <ul className="menu">
                             <li><NavLink className="nav-link" to=''>Home</NavLink></li>
                             <li><NavLink className="nav-link" to='about'>About</NavLink></li>
+                            {authState === AuthState.Authenticated && (
                             <li><NavLink className="nav-link" to='history'>Upload history</NavLink></li>
+                            )}
                             <li><NavLink className="nav-link" to='explore'>Explore</NavLink></li>
 
                             {authState === AuthState.Authenticated && (
                                 <div id="user-actions">
-                                    <div id="playerName"></div>
-
+                                    <div>
+                                        <span id="playerName">User: {userName}</span>
+                                    </div>
                                     <Button variant="primary" className="register" onClick={() => {
                                         logout();
                                     }
@@ -99,7 +102,9 @@ function App() {
 
 
                 <div className="footer">
-                    <span className="text-reset">Author: Chris Chau</span>
+                    <span className="text-reset">Credit: Chris Chau </span>
+
+
                     <a className="text-reset" href="https://github.com/ChrisChauyh/startup">GitHub</a>
                 </div>
             </div>
