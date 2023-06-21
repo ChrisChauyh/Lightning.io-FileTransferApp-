@@ -4,6 +4,8 @@ import {Authenticated} from "./authenticated";
 import {AuthState} from "./authState";
 
 export function Login({userName, authState, onAuthChange}) {
+
+
     return (
         <main className='container-fluid bg-secondary text-center'>
             <div>

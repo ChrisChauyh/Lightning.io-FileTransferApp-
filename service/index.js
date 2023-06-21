@@ -40,25 +40,31 @@ apiRouter.post('/auth/create', async (req, res) => {
 });
 
 const upload = multer({ dest: "uploads" });
-app.post('/upload',  upload.single('file'), async (req, res) => {
-
+app.post('/upload', upload.single('file'), async (req, res) => {
   const userName = req.body.email;
   const fileName = req.body.filenametext;
   const textInput = req.body.textinput;
   const fileNameHash = req.file.filename;
   const show = req.body.public;
   const date = new Date();
-  // get the date as a string
-  const total = date.toDateString()+" "+date.toLocaleTimeString();
-  if(userName != null){
+  const total = date.toDateString() + ' ' + date.toLocaleTimeString();
 
-    const fileData = await DB.createFile(userName,total,fileName,0, textInput,show,fileNameHash);
-    res.redirect('/generate.html?value=' + fileNameHash);
-  }
-  else{
+  if (userName != null) {
+    const fileData = await DB.createFile(
+        userName,
+        total,
+        fileName,
+        0,
+        textInput,
+        show,
+        fileNameHash
+    );
+
+  } else {
     res.status(404).send({ msg: 'Unknown' });
   }
 });
+
 //TODO create websocket share texts
 
 // GetFile returns information about a file
@@ -136,7 +142,7 @@ app.use(function (err, req, res, next) {
 
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
-  res.sendFile('index.html', { root: 'public' });
+  res.sendFile('', { root: 'public' });
 });
 
 // setAuthCookie in the HTTP response
