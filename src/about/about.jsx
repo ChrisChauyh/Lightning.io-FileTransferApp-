@@ -4,7 +4,7 @@ export function About() {
   return (
       <main className='container-fluid bg-secondary text-center'>
           <div className="content-fluid">
-              <p>Welcome to Lightning.io</p>
+              <h1>Welcome to Lightning.io</h1>
               <p>This is a website that for temporary upload and download files</p>
               <p>It is a super simple file sharing service that lets you upload files or text and get a link
                   or QR code to share. The files can be automatically deleted after they are downloaded or

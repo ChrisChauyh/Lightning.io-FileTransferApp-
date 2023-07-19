@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
+import {Authenticated} from "../login/authenticated";
 
 export function Generate() {
     const location = useLocation();
     const [imgSrc, setImgSrc] = useState("");
+
     const [downloadLink, setDownloadLink] = useState("");
+
     const [textResult, setTextResult] = useState("");
 
     useEffect(() => {
@@ -13,15 +16,16 @@ export function Generate() {
         const imgSrc1 = "https://api.qrserver.com/v1/create-qr-code/?data=";
         const imgSrc2 = "&size=200x200";
 
-        const urlParams = new URLSearchParams(location.search);
-        const filenameHash = urlParams.get("value");
+        const filenameHash = localStorage.getItem("fileNameHash")
+        const text = localStorage.getItem("textinput")
+
         const imgSrc = imgSrc1 + "https://" + host + ":" + port + "/download/" + filenameHash + imgSrc2;
 
         setImgSrc(imgSrc);
         setDownloadLink("https://" + host + ":" + port + "/download/" + filenameHash);
-        if (localStorage.getItem("texts") != null) {
-            setTextResult("This is your text: \n \n" + localStorage.getItem("texts"));
-        } else {
+        if (text != null) {
+            setTextResult("This is your text: \n \n" + text);
+        }else{
             setTextResult("There is no text");
         }
     }, [location]);

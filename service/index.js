@@ -59,6 +59,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
         show,
         fileNameHash
     );
+    res.send(fileData);
 
   } else {
     res.status(404).send({ msg: 'Unknown' });

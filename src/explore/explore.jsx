@@ -2,6 +2,58 @@ import React, { useEffect, useState } from "react";
 // import './explore.css';
 export function Explore() {
     const [uploads, setUploads] = useState([]);
+    const [messages, setMessages] = useState([]);
+    const [messageInput, setMessageInput] = useState("");
+    const [socket, setSocket] = useState(null);
+    useEffect(() => {
+        const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+        const newSocket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+        setSocket(newSocket);
+
+        newSocket.addEventListener("open", (event) => {
+            console.log("WebSocket connection opened:", event);
+        });
+
+        newSocket.addEventListener("message", (event) => {
+            console.log("WebSocket message received:", event.data);
+            const msg = JSON.parse(event.data);
+            displayMsg('player-messages', msg.from, msg.value);
+        });
+
+        return () => {
+            newSocket.close();
+        };
+    }, []);
+
+    const displayMsg = (cls, from, msg) => {
+        setMessages(prevMessages => [
+            { cls, from, msg },
+            ...prevMessages,
+        ]);
+    };
+
+    const handleSendMessage = (event) => {
+        event.preventDefault();
+        const message = messageInput.trim();
+        if (message !== "") {
+            const username = localStorage.getItem("userName");
+            broadcastEvent(username, message);
+            setMessageInput("");
+        }
+    };
+
+    const broadcastEvent = (from, value) => {
+        const event = {
+            from: from,
+            value: value,
+        };
+        if (socket && socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify(event));
+        } else {
+            console.error('WebSocket connection not open.');
+        }
+    };
+
 
     useEffect(() => {
         fetch("/api/downloads")
@@ -91,12 +143,27 @@ export function Explore() {
             <div id="player-messages"></div>
 
             <h1>ChatRoom</h1>
-            {/*<div id="person"></div>*/}
-            {/*<div id="messages-container"></div>*/}
-            {/*<form id="message-form">*/}
-            {/*    <input type="text" id="message-input">*/}
-            {/*        <button id="send">Send</button></input>*/}
-            {/*</form>*/}
+            <div>
+                <div id="player-messages">
+                    {messages.map((message, index) => (
+                        <div key={index} className="event">
+                            <span className={`${message.cls}-event`}>{message.from}</span>: {message.msg}
+                        </div>
+                    ))}
+                </div>
+                <form onSubmit={handleSendMessage} id="message-form">
+                    <input
+                        type="text"
+                        value={messageInput}
+                        onChange={(e) => setMessageInput(e.target.value)}
+                        id="message-input"
+                        placeholder="Type your message..."
+                    />
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+
+
         </main>
     );
 }
