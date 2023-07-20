@@ -8,8 +8,7 @@ export function Authenticated(props) {
 
     const navigate = useNavigate();
     const userName = props.userName;
-    const filenametext = props.filenametext;
-    const [textinput, setTextinput] = useState("");
+    const [textareaValue, setTextareaValue] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef(null);
 
@@ -36,19 +35,25 @@ export function Authenticated(props) {
         dropzone.classList.remove("dragover");
     };
 
-    //handle text area change
-    const handleTextChange = (event) => {
-        setTextinput(event.target.value);
-    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (selectedFile || textinput) {
+        // Get the textarea element using its ID
+        const textareaElement = document.getElementById('text-area');
+
+        // Retrieve the value from the textarea
+        const value = textareaElement.value;
+
+        // Update the state variable with the textarea value
+        setTextareaValue(value);
+
+        if (selectedFile || textareaValue!=="") {
             const formData = new FormData();
             formData.append('file', selectedFile);
             formData.append('email', userName);
             formData.append('filenametext', localStorage.getItem("localfilename"));
-            formData.append('textinput', textinput); // Includes the textarea content
+            formData.append('textinput', value); // Includes the textarea content
+
             fetch('/upload', {
                 method: 'POST',
                 body: formData,
@@ -56,15 +61,17 @@ export function Authenticated(props) {
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
-                    localStorage.setItem("email", data.username);
-                    localStorage.setItem("textinput", data.text);
+                    localStorage.setItem("email", data.userName);
+                    localStorage.setItem("textinput", value);
                     localStorage.setItem("fileNameHash", data.downloadLink);
+                    navigate("/generate");
                 })
                 .catch((error) => {
                     console.error(error);
                 });
         }
-        navigate("/generate");
+
+
     };
 
 
@@ -103,7 +110,6 @@ export function Authenticated(props) {
                 placeholder="Please type any text you want......"
                 style={{height: "100px"}}
                 wrap="soft"
-                onChange={handleTextChange}
             ></textarea>
                     </div>
                 </div>
