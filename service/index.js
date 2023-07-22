@@ -23,9 +23,6 @@ app.use(express.static('public'));
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
-app.use((_req, res) => {
-  res.sendFile('', { root: 'public' });
-});
 // CreateAuth token for a new user
 apiRouter.post('/auth/create', async (req, res) => {
   if (await DB.getUser(req.body.email)) {
@@ -64,44 +61,26 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     );
     res.send(fileData);
 
+
   } else {
     res.status(404).send({ msg: 'Unknown' });
   }
 });
-// Assuming you already have the necessary setup for your Express app and multer middleware...
 
-// Add a new endpoint to handle file deletion
-app.delete('/delete/:fileNameHash', (req, res) => {
-  const fileNameHash = req.params.fileNameHash;
+app.delete('/delete/:filename', async (req, res) => {
+  const filename = req.params.filename;
+  const file = await DB.getFile(filename);
+  if (file) {
+    // Perform the deletion from the database
+    await DB.deleteFile(filename);
 
-  // Assuming you have a database or file storage where you store the file information,
-  // you may need to fetch the file record by its fileNameHash and validate access rights
-  // before allowing the deletion.
-
-  // For the sake of this example, let's assume you have a "deleteFile" function that
-  // deletes the record from the database and returns the file information for deletion.
-  // The implementation of the "deleteFile" function is not provided here, as it depends on your database setup.
-
-  // Example usage:
-  // const fileData = deleteFile(fileNameHash);
-  // if (!fileData) {
-  //   return res.status(404).send({ msg: 'File not found or unauthorized' });
-  // }
-
-  // Delete the file from the uploads directory
-  const filePath = path.join(__dirname, 'uploads', fileNameHash);
-  fs.unlink(filePath, (err) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send({ msg: 'Error deleting file' });
-    }
-
-    // If you successfully deleted the file from the storage, you can also remove the record from the database here
-    // ...
-
-    // Respond with a success message or any other data you want to return
-  });
+    // Respond with a success message
+    res.send({ msg: 'File deleted successfully' });
+  } else {
+    res.status(404).send({ msg: 'File not found' });
+  }
 });
+
 // GetFile returns information about a file
 app.get('/download/:filename', async (req, res) => {
   const filename = req.params.filename;
@@ -175,8 +154,9 @@ app.use(function (err, req, res, next) {
 
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
-  res.sendFile('', { root: 'public' });
+  res.sendFile('index.html', { root: 'public' });
 });
+
 
 // setAuthCookie in the HTTP response
 function setAuthCookie(res, authToken) {

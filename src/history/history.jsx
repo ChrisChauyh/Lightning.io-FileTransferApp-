@@ -1,8 +1,12 @@
 import React, {useEffect, useState} from "react";
 
-export function History() {
+export function History({
+                            onDelete }) {
     const [downloads, setDownloads] = useState([]);
-
+    const handleClick = (downloadLink) => {
+        // Call the delete API endpoint when the button is clicked
+        onDelete(downloadLink);
+    };
     useEffect(() => {
         fetch("/api/downloads")
             .then((response) => response.json())
@@ -45,16 +49,17 @@ export function History() {
                                     <td>{download.count}</td>
                                     <td>
                                         <a
-                                            href={`https://${window.location.hostname}:${window.location.port}/download/${download.downloadLink}`}
+                                            href={`/download/${download.downloadLink}`}
                                         >
                                             <button>Download</button>
                                         </a>
                                     </td>
-                                    <td>                                        <a
-                                        href={`https://${window.location.hostname}:${window.location.port}/delete/${download.downloadLink}`}
-                                    >
-                                        <button>X</button>
-                                    </a></td>
+                                    <td>
+
+                                        <button onClick={() => handleClick(download.downloadLink)}>Delete</button>
+
+                                    </td>
+
                                 </tr>
                             );
                         }

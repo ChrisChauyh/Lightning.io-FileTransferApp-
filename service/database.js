@@ -47,8 +47,8 @@ async function createUser(email, password) {
   return user;
 }
 
+//create a delete file endpoint
 async function createFile(email,dateAndTime,fileName,downloadTimes,textinput,public,fileNameHash) {
-
   // Hash the fileNames before we insert it into the database
   const file = {
     username: email,
@@ -62,6 +62,15 @@ async function createFile(email,dateAndTime,fileName,downloadTimes,textinput,pub
   await fileCollection.insertOne(file);
 
   return file;
+}
+
+async function deleteFile(filename) {
+  try {
+    // Delete the file from the database using the filename
+    await fileCollection.deleteOne({ downloadLink: filename });
+  } catch (error) {
+    throw error;
+  }
 }
 
 function addDownload(file) {
@@ -89,6 +98,7 @@ module.exports = {
   getUserByToken,
   createUser,
   createFile,
+  deleteFile,
   addDownload,
   getLatestDownloads,
 };

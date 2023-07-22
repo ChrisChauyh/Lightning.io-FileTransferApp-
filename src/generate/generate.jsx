@@ -12,7 +12,8 @@ export function Generate() {
 
     useEffect(() => {
         const host = window.location.hostname;
-        const port = window.location.port;
+        // const port = window.location.port;
+        const port = 3000;
         const imgSrc1 = "https://api.qrserver.com/v1/create-qr-code/?data=";
         const imgSrc2 = "&size=200x200";
 
@@ -22,7 +23,7 @@ export function Generate() {
         const imgSrc = imgSrc1 + "https://" + host + ":" + port + "/download/" + filenameHash + imgSrc2;
 
         setImgSrc(imgSrc);
-        setDownloadLink("https://" + host + ":" + port + "/download/" + filenameHash);
+        setDownloadLink(host + ":" + port + "/download/" + filenameHash);
         if (text != null) {
             setTextResult("This is your text: \n \n" + text);
         }else{

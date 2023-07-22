@@ -103,7 +103,7 @@ export function Explore() {
                                 <td>{upload.count}</td>
                                 <td>
                                     <a
-                                        href={`https://${window.location.hostname}:${window.location.port}/download/${upload.downloadLink}`}
+                                        href={`/download/${upload.downloadLink}`}
                                     >
                                         <button>Download</button>
                                     </a>
@@ -118,15 +118,6 @@ export function Explore() {
                 )}
                 </tbody>
             </table>
-            <span className="player">Chat history</span>
-            <div id="player-messages">
-                {messages.map((message, index) => (
-                    <div key={index} className="event">
-                        <span className={`${message.cls}-event`}>{message.from}</span>: {message.msg}
-                    </div>
-                ))}
-            </div>
-
             <h1>ChatRoom</h1>
             <div>
                 <div id="player-messages">
