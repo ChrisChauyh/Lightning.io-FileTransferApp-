@@ -7,7 +7,7 @@ const DB = require('./database.js');
 const { PeerProxy } = require('./peerProxy.js');
 const authCookieName = 'token';
 
-// The service port may be set on the command line
+// The BackEnd port may be set on the command line
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
 // JSON body parsing using built-in middleware
@@ -19,7 +19,7 @@ app.use(cookieParser());
 // Serve up the applications static content
 app.use(express.static('public'));
 
-// Router for service endpoints
+// Router for BackEnd endpoints
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 

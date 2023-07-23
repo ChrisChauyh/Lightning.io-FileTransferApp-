@@ -2,7 +2,7 @@
 async function loadUploads() {
     let uploads = [];
     try {
-        // Get the latest downloads from the service
+        // Get the latest downloads from the BackEnd
         const response = await fetch('/api/downloads');
         uploads = await response.json();
         // Save the downloads in case we go offline in the future

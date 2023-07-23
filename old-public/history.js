@@ -1,7 +1,7 @@
 async function loadDownloads() {
     let downloads = [];
     try {
-        // Get the latest downloads from the service
+        // Get the latest downloads from the BackEnd
         const response = await fetch('/api/downloads');
         downloads = await response.json();
 
