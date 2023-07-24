@@ -6,9 +6,35 @@ export function Generate() {
     const location = useLocation();
     const [imgSrc, setImgSrc] = useState("");
 
-    const [downloadLink, setDownloadLink] = useState("");
 
     const [textResult, setTextResult] = useState("");
+    const handleDownload = () => {
+        // Make a request to the backend download endpoint
+        fetch(`download/${localStorage.getItem("fileNameHash")}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.blob(); // Convert the response to a Blob
+            })
+            .then(blob => {
+                // Create a URL for the Blob object
+                const url = URL.createObjectURL(blob);
+
+                // Create a temporary link element to trigger the download
+                const downloadLink = document.createElement('a');
+                downloadLink.href = url;
+                downloadLink.download = localStorage.getItem("localfilename"); // Set the desired filename and extension
+                downloadLink.click(); // Simulate a click on the link to trigger the download
+
+                // Clean up the temporary URL object after the download is initiated
+                URL.revokeObjectURL(url);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle errors, e.g., display an error message to the user
+            });
+    };
 
     useEffect(() => {
         const host = window.location.hostname;
@@ -20,10 +46,10 @@ export function Generate() {
         const filenameHash = localStorage.getItem("fileNameHash")
         const text = localStorage.getItem("textinput")
 
-        const imgSrc = imgSrc1 + "https://" + host + ":" + port + "/download/" + filenameHash + imgSrc2;
+        const imgSrc = imgSrc1 + "https://" + host + "/download/" + filenameHash + imgSrc2;
 
         setImgSrc(imgSrc);
-        setDownloadLink(host + ":" + port + "/download/" + filenameHash);
+        //setDownloadLink(host + ":" + port + "/download/" + filenameHash);
         if (text != null) {
             setTextResult("This is your text: \n \n" + text);
         }else{
@@ -40,8 +66,8 @@ export function Generate() {
                             <img alt="QR Code" src={imgSrc}/>
                             <br/>
                             <br/>
-                            <a href={downloadLink}>
-                                <button className="btn btn-primary">Download</button>
+                            <a href="#" onClick={handleDownload}>
+                                Download File
                             </a>
                         </div>
                     </div>

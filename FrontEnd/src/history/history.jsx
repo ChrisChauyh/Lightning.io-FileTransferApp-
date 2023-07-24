@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
+import { handleDownload, handleDelete} from "../downloadAndDelete";
 
-export function History({
-                            onDelete }) {
+
+
+
+export function History({}) {
     const [downloads, setDownloads] = useState([]);
-    const handleClick = (downloadLink) => {
-        // Call the delete API endpoint when the button is clicked
-        onDelete(downloadLink);
-    };
+
     useEffect(() => {
         fetch("/api/downloads")
             .then((response) => response.json())
@@ -22,6 +22,18 @@ export function History({
             });
     }, []);
 
+    const handleDeleteSuccess = () => {
+        // Refetch downloads here
+        fetch("/api/downloads")
+            .then((response) => response.json())
+            .then((histories) => {
+                setDownloads(histories);
+                localStorage.setItem("histories", JSON.stringify(histories));
+            })
+            .catch((error) => {
+                console.error('Error fetching downloads:', error);
+            });
+    };
     return (
         <main className="container-fluid bg-secondary text-center">
             <table className="table table-warning table-striped-columns">
@@ -48,15 +60,13 @@ export function History({
                                     <td>{download.date}</td>
                                     <td>{download.count}</td>
                                     <td>
-                                        <a
-                                            href={`/download/${download.downloadLink}`}
-                                        >
-                                            <button>Download</button>
+                                        <a href="#" onClick={() => handleDownload(download)}>
+                                            Download File
                                         </a>
                                     </td>
                                     <td>
 
-                                        <button onClick={() => handleClick(download.downloadLink)}>Delete</button>
+                                        <button onClick={() => handleDelete(download,handleDeleteSuccess)}>Delete</button>
 
                                     </td>
 

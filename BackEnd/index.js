@@ -6,9 +6,12 @@ const multer = require('multer');
 const DB = require('./database.js');
 const { PeerProxy } = require('./peerProxy.js');
 const authCookieName = 'token';
+const fs = require('fs');
+const path = require('path');
+
 
 // The BackEnd port may be set on the command line
-const port = process.argv.length > 2 ? process.argv[2] : 3000;
+const port = process.argv.length > 2 ? process.argv[2] : 8080;
 
 // JSON body parsing using built-in middleware
 app.use(express.json());
@@ -65,6 +68,38 @@ app.post('/upload', upload.single('file'), async (req, res) => {
   } else {
     res.status(404).send({ msg: 'Unknown' });
   }
+});
+
+app.delete('/delete/:filename', async (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(__dirname, 'uploads', filename);
+  const file = await DB.getFile(filename);
+  if (file) {
+    // Perform the deletion from the database
+    await DB.deleteFile(filename);
+    // Check if the file exists before attempting to delete it.
+    fs.access(filePath, fs.constants.F_OK, (err) => {
+      if (err) {
+        // If the file doesn't exist, respond with an error.
+        res.status(404).send('File not found!');
+      } else {
+        // If the file exists, delete it.
+        fs.unlink(filePath, (err) => {
+          if (err) {
+            // If there was an error deleting the file, respond with an error.
+            res.status(500).send('Error deleting file!');
+          } else {
+            // File successfully deleted.
+            res.status(200).send('File deleted!');
+          }
+        });
+      }
+    });
+
+  } else {
+    res.status(404).send({msg: 'File not found'});
+  }
+
 });
 
 app.delete('/delete/:filename', async (req, res) => {

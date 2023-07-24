@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { handleDownload } from "../downloadAndDelete";
 
 export function Explore() {
     const [uploads, setUploads] = useState([]);
@@ -102,10 +103,8 @@ export function Explore() {
                                 <td>{upload.date}</td>
                                 <td>{upload.count}</td>
                                 <td>
-                                    <a
-                                        href={`/download/${upload.downloadLink}`}
-                                    >
-                                        <button>Download</button>
+                                    <a href="#" onClick={() => handleDownload(upload)}>
+                                        Download File
                                     </a>
                                 </td>
                             </tr>
