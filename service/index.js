@@ -10,7 +10,7 @@ const fs = require('fs');
 const path = require('path');
 
 
-// The BackEnd port may be set on the command line
+// The service port may be set on the command line
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
 // JSON body parsing using built-in middleware
@@ -22,7 +22,7 @@ app.use(cookieParser());
 // Serve up the applications static content
 app.use(express.static('public'));
 
-// Router for BackEnd endpoints
+// Router for service endpoints
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
@@ -189,7 +189,7 @@ app.use(function (err, req, res, next) {
 
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
-  res.sendFile('index.html', { root: 'public' });
+  res.sendFile('index.html', { root: '../public' });
 });
 
 
