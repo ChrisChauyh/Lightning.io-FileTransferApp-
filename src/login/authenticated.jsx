@@ -2,7 +2,6 @@ import React, {useState, useRef} from "react";
 import Button from "react-bootstrap/Button";
 import {NavLink, useNavigate} from "react-router-dom";
 import "./login.css";
-import data from "bootstrap/js/src/dom/data";
 
 export function Authenticated(props) {
 
