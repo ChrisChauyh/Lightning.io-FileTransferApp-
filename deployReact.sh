@@ -21,11 +21,9 @@ rm -rf build
 mkdir build
 npm install # make sure vite is installed so that we can bundle
 npm run build # build the React front end
-cp -rf public build
-cp -rf package.json build
-cp -rf src build # move the React front end to the target distribution
-cp service/*.js build/service # move the back end service to the target distribution
-cp service/*.json build/service
+cp -rf dist build/public # move the React front end to the target distribution
+cp service/*.js build # move the back end service to the target distribution
+cp service/*.json build
 
 # Step 2
 printf "\n----> Clearing out previous distribution on the target\n"
