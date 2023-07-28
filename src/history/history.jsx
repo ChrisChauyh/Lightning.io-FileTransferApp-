@@ -8,7 +8,7 @@ export function History({}) {
     const [downloads, setDownloads] = useState([]);
 
     useEffect(() => {
-        fetch("/api/downloads")
+        fetch("/downloads")
             .then((response) => response.json())
             .then((histories) => {
                 setDownloads(histories);
@@ -24,7 +24,7 @@ export function History({}) {
 
     const handleDeleteSuccess = () => {
         // Refetch downloads here
-        fetch("/api/downloads")
+        fetch("/downloads")
             .then((response) => response.json())
             .then((histories) => {
                 setDownloads(histories);

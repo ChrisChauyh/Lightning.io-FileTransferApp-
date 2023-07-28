@@ -2,7 +2,6 @@
   "name": "Lightning FrontEnd",
   "version": "0.2.0",
   "private": true,
-  "proxy": "http://localhost:4000",
   "dependencies": {
     "bootstrap": "^5.2.3",
     "react": "^18.2.0",
