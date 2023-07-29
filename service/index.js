@@ -13,7 +13,6 @@ const path = require('path');
 
 
 
-
 // The service port may be set on the command line
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
@@ -105,20 +104,22 @@ app.delete('/delete/:filename', async (req, res) => {
     }
 
 });
+//TODO check if this works
 
-app.delete('/delete/:filename', async (req, res) => {
-    const filename = req.params.filename;
-    const file = await DB.getFile(filename);
-    if (file) {
-        // Perform the deletion from the database
-        await DB.deleteFile(filename);
 
-        // Respond with a success message
-        res.send({msg: 'File deleted successfully'});
-    } else {
-        res.status(404).send({msg: 'File not found'});
-    }
-});
+// app.delete('/delete/:filename', async (req, res) => {
+//     const filename = req.params.filename;
+//     const file = await DB.getFile(filename);
+//     if (file) {
+//         // Perform the deletion from the database
+//         await DB.deleteFile(filename);
+
+//         // Respond with a success message
+//         res.send({msg: 'File deleted successfully'});
+//     } else {
+//         res.status(404).send({msg: 'File not found'});
+//     }
+// });
 
 // GetFile returns information about a file
 app.get('/download/:filename', async (req, res) => {
